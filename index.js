@@ -137,19 +137,19 @@ function init() {
     marker.add(model);
     
     //Audio
-    // new THREE.AudioLoader().load(audioFile, function(buffer){
-    //   var listener = new THREE.AudioListener();
-    //   var audio = new THREE.Audio( listener ).setBuffer( buffer );
+    new THREE.AudioLoader().load(audioFile, function(buffer){
+    var listener = new THREE.AudioListener();
+    var audio = new THREE.Audio( listener ).setBuffer( buffer );
 
-    //   listener.position.z = 1;
+    listener.position.z = 1;
       
-    //   helper.add( audio, audioParams );
-    //   marker.add( listener );
+    helper.add( audio, audioParams );
+    marker.add( listener );
 
-    //   // Music Load Flag
-    //   ready = true;
-    // });
+    // Music Load Flag
     ready = true;
+     });
+    //ready = true;
 
 
   }, onProgress, onError );
