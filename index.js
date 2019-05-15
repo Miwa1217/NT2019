@@ -137,6 +137,7 @@ function init() {
     marker.add(model);
     
     //Audio
+    /*
     new THREE.AudioLoader().load(audioFile, function(buffer){
     var listener = new THREE.AudioListener();
     var audio = new THREE.Audio( listener ).setBuffer( buffer );
@@ -148,7 +149,7 @@ function init() {
 
     // Music Load Flag
     ready = true;
-     });
+     });*/
     //ready = true;
 
 
