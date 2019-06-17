@@ -1,52 +1,62 @@
 <html>
 <head>
-<title>test2</title>
+<title>test3</title>
 <script type="text/javascript" src="leap-0.6.4.js"></script>
 <script type="text/javascript">
-
 var leapFunc = function(frame) {
-    var handString = "", fingerString = "";
-    for (var i = 0; i < frame.hands.length; i++) {
-        var hand = frame.hands[i];
-        handString += "hand_number" + hand.id + "<br />"
-        + "type" + ((hand.type == "right")? "right": "left") + "<br />"
-        + "center" + Math.round(hand.palmPosition[0]) + " / "
-                     + Math.round(hand.palmPosition[1]) + " / "
-                     + Math.round(hand.palmPosition[2]) + "<br />"
-        + "motion" + Math.round(hand.roll ()*180/Math.PI) + " / "
-                     + Math.round(hand.pitch()*180/Math.PI) + " / "
-                     + Math.round(hand.yaw  ()*180/Math.PI) + "<br />"
-        + "motion2" + "pinch = " + Math.round(hand.pinchStrength * 100) + " / " 
-                     + "grab = " + Math.round(hand.grabStrength * 100)  + "<br />";
-        for (var j = 0; j < hand.fingers.length; j++) {
-            var finger = hand.fingers[j];
-            fingerString += "finger_number" + finger.type + "<br />"
-            + "position" + Math.round(finger.tipPosition[0]) + " / "
-                         + Math.round(finger.tipPosition[1]) + " / "
-                         + Math.round(finger.tipPosition[2]) + "<br />"
-            + "1" + Math.round(finger.dipPosition[0]) + " / "
-                         + Math.round(finger.dipPosition[1]) + " / "
-                         + Math.round(finger.dipPosition[2]) + "<br />"
-            + "2" + Math.round(finger.pipPosition[0]) + " / "
-                         + Math.round(finger.pipPosition[1]) + " / "
-                         + Math.round(finger.pipPosition[2]) + "<br />"
-            + "3" + Math.round(finger.mcpPosition[0]) + " / "
-                         + Math.round(finger.mcpPosition[1]) + " / "
-                         + Math.round(finger.mcpPosition[2]) + "<br />"
-            + "4" + Math.round(finger.carpPosition[0]) + " / "
-                         + Math.round(finger.carpPosition[1]) + " / "
-                         + Math.round(finger.carpPosition[2]) + "<br />";
+    var gestureString = "";
+    for (var i = 0; i < frame.gestures.length; i++) {
+        var gesture = frame.gestures[i];
+        switch (gesture.type) {
+            case "circle":
+                gestureString = "circle<br />"
+                + "state" + gesture.state + "<br  />"
+                + "tyuusin" + Math.round(gesture.center[0]) + " / "
+                             + Math.round(gesture.center[1]) + " / "
+                             + Math.round(gesture.center[2]) + "<br  />"
+                + "hankei" + Math.round(gesture.radius) + "<br  />";
+                break;
+            case "keyTap":
+                gestureString = "keytap<br />"
+                + "state" + gesture.state + "<br  />"
+                + "ichi" + Math.round(gesture.position[0]) + " / "
+                             + Math.round(gesture.position[1]) + " / "
+                             + Math.round(gesture.position[2]) + "<br  />"
+                + "houkou" + Math.round(100*gesture.direction[0]) + " / "
+                             + Math.round(100*gesture.direction[1]) + " / "
+                             + Math.round(100*gesture.direction[2]) + "<br  />";
+                break;
+            case "screenTap":
+                gestureString = "screenTap<br />"
+                + "state" + gesture.state + "<br  />"
+                + "ichi" + Math.round(gesture.position[0]) + " / "
+                             + Math.round(gesture.position[1]) + " / "
+                             + Math.round(gesture.position[2]) + "<br  />"
+                + "houkou" + Math.round(100*gesture.direction[0]) + " / "
+                             + Math.round(100*gesture.direction[1]) + " / "
+                             + Math.round(100*gesture.direction[2]) + "<br  />";
+                break;
+            case "swipe":
+                gestureString = "swipe<br />"
+                + "state" + gesture.state + "<br  />"
+                + "ichi" + Math.round(gesture.position[0]) + " / "
+                             + Math.round(gesture.position[1]) + " / "
+                             + Math.round(gesture.position[2]) + "<br  />"
+                + "houkou" + Math.round(100*gesture.direction[0]) + " / "
+                             + Math.round(100*gesture.direction[1]) + " / "
+                             + Math.round(100*gesture.direction[2]) + "<br  />"
+                + "hayasa" + Math.round(gesture.speed) + "<br  />";
+                break;
         }
     }
-    hands.innerHTML = handString;
-    fingers.innerHTML = fingerString;
+    if (gestureString != "")
+        gestures.innerHTML = gestureString;
 }
-Leap.loop(leapFunc);
+Leap.loop({enableGestures: true}, leapFunc);
 </script>
 </head>
-<body style="font-family: sans-serif; font-size: 14px;">
-<p>Hold on Hand<p>
-<div id="hands"></div>
-<div id="fingers"></div>
+<p>gesture</p>
+<body style="font-family: sans-serif; font-size: 20px;">
+<div id="gestures"></div>
 </body>
 </html>
