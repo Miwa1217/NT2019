@@ -13,7 +13,7 @@ var leapFunc = function(frame) {
         //  backward
   		if (flagB == false && z > 50.0 && g > 0.85) {
             flagB = true;
-            window.open('https://www.google.co.jp', '_blank');
+            location.href ='https://www.google.co.jp';
         }
         else if (flagB == true && z < -50.0) {
             flagB = false;
