@@ -14,10 +14,10 @@ var leapFunc = function(frame) {
         //  backward
   		if (flagB == false && z > 50.0 && g > 0.85) {
             flagB = true;
-            location.href ='https://www.google.co.jp';
+            //location.href ='https://www.google.co.jp';
             //window.open('https://www.google.co.jp', '_blank');
             //window.open('https://www.google.co.jp', null, 'width=500,height=500');
-            //$.get('https://www.google.co.jp');
+            $.get('http://192.168.73.119/power');
 
         }
         else if (flagB == true && z < -50.0) {
