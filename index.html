@@ -1,62 +1,27 @@
 <html>
 <head>
-<title>test3</title>
+<title>test4</title>
 <script type="text/javascript" src="leap-0.6.4.js"></script>
 <script type="text/javascript">
+
+var flagB = false;
 var leapFunc = function(frame) {
-    var gestureString = "";
-    for (var i = 0; i < frame.gestures.length; i++) {
-        var gesture = frame.gestures[i];
-        switch (gesture.type) {
-            case "circle":
-                gestureString = "circle<br />"
-                + "state" + gesture.state + "<br  />"
-                + "tyuusin" + Math.round(gesture.center[0]) + " / "
-                             + Math.round(gesture.center[1]) + " / "
-                             + Math.round(gesture.center[2]) + "<br  />"
-                + "hankei" + Math.round(gesture.radius) + "<br  />";
-                break;
-            case "keyTap":
-                gestureString = "keytap<br />"
-                + "state" + gesture.state + "<br  />"
-                + "ichi" + Math.round(gesture.position[0]) + " / "
-                             + Math.round(gesture.position[1]) + " / "
-                             + Math.round(gesture.position[2]) + "<br  />"
-                + "houkou" + Math.round(100*gesture.direction[0]) + " / "
-                             + Math.round(100*gesture.direction[1]) + " / "
-                             + Math.round(100*gesture.direction[2]) + "<br  />";
-                break;
-            case "screenTap":
-                gestureString = "screenTap<br />"
-                + "state" + gesture.state + "<br  />"
-                + "ichi" + Math.round(gesture.position[0]) + " / "
-                             + Math.round(gesture.position[1]) + " / "
-                             + Math.round(gesture.position[2]) + "<br  />"
-                + "houkou" + Math.round(100*gesture.direction[0]) + " / "
-                             + Math.round(100*gesture.direction[1]) + " / "
-                             + Math.round(100*gesture.direction[2]) + "<br  />";
-                break;
-            case "swipe":
-                gestureString = "swipe<br />"
-                + "state" + gesture.state + "<br  />"
-                + "ichi" + Math.round(gesture.position[0]) + " / "
-                             + Math.round(gesture.position[1]) + " / "
-                             + Math.round(gesture.position[2]) + "<br  />"
-                + "houkou" + Math.round(100*gesture.direction[0]) + " / "
-                             + Math.round(100*gesture.direction[1]) + " / "
-                             + Math.round(100*gesture.direction[2]) + "<br  />"
-                + "hayasa" + Math.round(gesture.speed) + "<br  />";
-                break;
+    //  mode.innerHTML = handString;
+    if (frame.hands.length > 0) {
+        var z = frame.hands[0].palmPosition[2];
+        var g = frame.hands[0].grabStrength;
+        //  backward
+  		if (flagB == false && z > 50.0 && g > 0.85) {
+            flagB = true;
+            window.open('https://www.google.co.jp', '_blank');
+        }
+        else if (flagB == true && z < -50.0) {
+            flagB = false;
         }
     }
-    if (gestureString != "")
-        gestures.innerHTML = gestureString;
 }
-Leap.loop({enableGestures: true}, leapFunc);
+Leap.loop(leapFunc);
 </script>
 </head>
-<p>gesture</p>
-<body style="font-family: sans-serif; font-size: 20px;">
-<div id="gestures"></div>
-</body>
 </html>
+
