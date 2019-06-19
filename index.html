@@ -1,7 +1,7 @@
 <html>
 <head>
 <title>test4</title>
-<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="leap-0.6.4.js"></script>
 <script type="text/javascript">
 
@@ -14,10 +14,10 @@ var leapFunc = function(frame) {
         //  backward
   		if (flagB == false && z > 50.0 && g > 0.85) {
             flagB = true;
-            //location.href ='https://www.google.co.jp';
+            //location.href ='http://192.168.20.1/power';
             //window.open('https://www.google.co.jp', '_blank');
             //window.open('https://www.google.co.jp', null, 'width=500,height=500');
-            $.get('http://192.168.73.119/power');
+            $.get('http://192.168.20.1/power');
 
         }
         else if (flagB == true && z < -50.0) {
