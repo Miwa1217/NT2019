@@ -1,32 +1,101 @@
 <html>
 <head>
-<title>test4</title>
+<title>NT2019</title>
 <script type="text/javascript" src="jquery-3.4.1.min.js"></script>
 <script type="text/javascript" src="leap-0.6.4.js"></script>
 <script type="text/javascript">
 
-var flagB = false;
+var flag_on = false;
+var flag_air = false;
+var flag_side = false;
+var flag_vertical = false;
+var flag_timer = false;
+var flag_turn = false;
+var gestureString = "";
 var leapFunc = function(frame) {
-    //  mode.innerHTML = handString;
+    for (var i = 0; i < frame.gestures.length; i++) {
+        var gesture = frame.gestures[i];
+        switch (gesture.type) {
+            case "circle":
+                if(gesture.radius > 100){
+                    gestureString = "ON/OFF<br />";
+                    $.get('http://192.168.20.1/power');
+                }
+                break;
+                
+            case "screenTap":
+                gestureString = "Rhythm<br />";
+                $.get('http://192.168.20.1/rhythm');
+                break;
+        }
+    }
+    if (gestureString != "")
+        gestures.innerHTML = gestureString;
+
     if (frame.hands.length > 0) {
+        var x = frame.hands[0].palmPosition[0];
+        var y = frame.hands[0].palmPosition[1];
         var z = frame.hands[0].palmPosition[2];
         var g = frame.hands[0].grabStrength;
-        //  backward
-  		if (flagB == false && z > 50.0 && g > 0.85) {
-            flagB = true;
-            //location.href ='http://192.168.20.1/power';
-            //window.open('https://www.google.co.jp', '_blank');
-            //window.open('https://www.google.co.jp', null, 'width=500,height=500');
-            $.get('http://192.168.20.1/power');
 
+        if (flag_air == false && y < 70.0 && g < 0.85) {
+            flag_air = true;
+            gestureString = "Air_down<br />";
+            $.get('http://192.168.20.1/air/down');
         }
-        else if (flagB == true && z < -50.0) {
-            flagB = false;
+        else if (flag_air == true && y > 300.0 && g < 0.85) {
+            flag_air = false;
+            gestureString = "Air_up<br />";
+            $.get('http://192.168.20.1/air/up');
+        }
+
+        if (flag_side == false && x > -50.0 && g > 0.85) {
+            flag_side = true;
+            gestureString = "swing_side<br />";
+            $.get('http://192.168.20.1/swing/side');
+        }
+        else if (flag_side == true && x < -50.0 && g > 0.85) {
+            flag_side = false;
+        }
+
+        if (flag_vertical == false && y > 300.0 && g > 0.85) {
+            flag_vertical = true;
+            gestureString = "swing_vertical<br />";
+            $.get('http://192.168.20.1/swing/vertical');
+        }
+        else if (flag_vertical == true && y < 70.0 && g > 0.85) {
+            flag_vertical = false;
+        }
+
+        if (flag_timer == false && z > 50.0 && g > 0.85) {
+            flag_timer = true;
+            gestureString = "timer_on<br />";
+            $.get('http://192.168.20.1/timer/on');
+        }
+        else if (flag_timer == true && z < -50.0 && g > 0.85) {
+            flag_timer = false;
+            gestureString = "timer_off<br />";
+            $.get('http://192.168.20.1/timer/off');
+        }
+
+        if (flag_turn == false && x < -80.0 && g < 0.85) {
+            flag_turn = true;
+            gestureString = "turn_left<br />";
+            $.get('http://192.168.20.1/turn/left');
+        }
+        else if (flag_turn == true && x > 80.0 && g < 0.85) {
+            flag_turn = false;
+            gestureString = "turn_right<br />";
+            $.get('http://192.168.20.1/turn/right');
         }
     }
 }
-Leap.loop(leapFunc);
+//Leap.loop(leapFunc);
+Leap.loop({enableGestures: true}, leapFunc);
 </script>
 </head>
+<p>gesture</p>
+<body style="font-family: sans-serif; font-size: 20px;">
+<div id="gestures"></div>
+</body>
 </html>
-
